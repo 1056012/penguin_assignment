@@ -114,7 +114,7 @@ scatter_plot<- ggplot(data=penguins_mass_length,
        y= "Body Mass (g)",
 colour = "Species")+
   theme_bw()+
-  geom_smooth(method=lm, se= FALSE)
+  geom_smooth(aes(x=culmen_length_mm, y=body_mass_g), method="lm", se=FALSE, inherit.aes = FALSE)
  
   
 scatter_plot
@@ -140,7 +140,7 @@ scatter_function <- function(penguins_mass_length)
        y= "Body Mass (g)",
 colour = "Species")+
   theme_bw()+
-  geom_smooth(method=lm, se= FALSE)
+  geom_smooth(aes(x=culmen_length_mm, y=body_mass_g), method="lm", se=FALSE, inherit.aes = FALSE)
 }
 
 #Similar to the other functions, you can create another pipeline here.
