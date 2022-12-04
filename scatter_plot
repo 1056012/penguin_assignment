@@ -164,12 +164,6 @@ dev.off()
 ```
 
 #Or save figure as a vector image
-#new package needed for this
-```{r}
-install.packages(svglite)
-library(svglite)
-```
-
 ```{r}
 svglite("figures/scatterplot2.svg", 
         width = 5.9, height = 5.9)
