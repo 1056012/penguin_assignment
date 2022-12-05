@@ -1,16 +1,13 @@
-This includes the code for question 4 (to be shared with partner)
-title: "penguin_assignment"
-output: html_document
----
-
 #Cleaning environment 
 ```{r}
 rm(list = ls(all.names = TRUE))
 ```
+
 #set your working directory 
 ```{r}
 setwd(file.choose())
 ```
+
 #Load the needed libraries
 ```{r}
 library(palmerpenguins)
@@ -22,8 +19,9 @@ library(ragg)
 library(svglite)
 
 #You can also create read the libraries in as a function from another file. 
-#To do this, you need to create a function folder in your directory, and add an r file called libraries.r containing the code  as a function. 
-# This is what would be inside libraries.r:
+#To do this, you need to create a function folder in your directory, and add an r file called librariesII.r containing the code  as a function. 
+# This is what would be inside librariesII.r:
+#This file is also included within the functions folder in the repository
 # -----------------------------------------------------------
 # library(palmerpenguins)
 # library(ggplot2)
@@ -37,20 +35,30 @@ library(svglite)
 #Appropriately clean the data
 ```{r}
 source("functions/cleaningII.R")
-
 ##Similar to libraries.r, you can either make a similar r file (called cleaning.r) in your functions folder within working directory and add the function for cleaning.
 #cleaningII.r, which is the pipe to clean up the column names includes the code:
-#cleaning <- function(raw_data){
-  #raw_data %>%
-    #clean_names() %>%
-    #remove_empty(c("rows", "cols")) %>%
-    #select(-starts_with("delta")) %>%
-    #select(-comments)
-#}
+#This file is also included within the functions folder in the repository
+```
+
+```{r}
+cleaning <- function(raw_data){
+  raw_data %>%
+    clean_names() %>%
+    remove_empty(c("rows", "cols")) %>%
+    select(-starts_with("delta")) %>%
+    select(-comments)
+}
+```
+
 
 #Saving the data to a new data frame
 ```{r}
 penguins_clean2 <- cleaning(penguins_raw)
+```
+
+#Look at the data
+```{r}
+head(penguins_clean2)
 ```
 
 #Cleaning data to include body mass, culmen length and species without any NAs
@@ -61,14 +69,10 @@ remove_empty_body_mass <- function(data_clean){
     select(culmen_length_mm, body_mass_g, species)
 }
 ```
+
 #Save the new changes into a new data frame 
 ```{r}
 penguins_mass_length <- remove_empty_body_mass(penguins_clean2)
-```
-
-#Looking at new data set
-```{r}
-head(penguins_mass_length)
 ```
 
 #New: Run a statistical test
@@ -84,7 +88,7 @@ summary(mass_length_lm)
 ##The p value for the culmen length has a significantly low p value compared to the intercept.
 ##The equation of the line is y= 87.415(culmen_length_mm) + 362.307 
 
-#Testing assumption for simple linear model 
+#Testing assumptions for simple linear model 
 ```{r}
 plot(mass_length_lm)
 ```
@@ -99,8 +103,8 @@ corr <- cor.test(x=penguins_mass_length$culmen_length_mm, y=penguins_mass_length
 corr
 ```
 
-
-#Creating the figure
+#Create a figure
+#Figure with one line of best fit
 ```{r}
 scatter_plot<- ggplot(data=penguins_mass_length,
        aes(x=culmen_length_mm,
@@ -115,9 +119,30 @@ scatter_plot<- ggplot(data=penguins_mass_length,
 colour = "Species")+
   theme_bw()+
   geom_smooth(aes(x=culmen_length_mm, y=body_mass_g), method="lm", se=FALSE, inherit.aes = FALSE)
+  
  
   
 scatter_plot
+```
+#Figure with three lines of best fit for the three species 
+```{r}
+scatter_plot_version2<- ggplot(data=penguins_mass_length,
+       aes(x=culmen_length_mm,
+           y=body_mass_g,
+           colour= species
+           )) +
+  geom_point()+
+  scale_colour_discrete(labels=c('Adelie Penguin', 'Chinstrap Penguin', 'Gentoo Penguin'))+
+  labs(title = "Culmen Length vs. Body Mass",
+       x= "Culmen Length (mm)", 
+       y= "Body Mass (g)",
+colour = "Species")+
+  theme_bw()+
+  geom_smooth(method=lm, se= FALSE)
+  
+ 
+  
+scatter_plot_version2
 ```
 
 #Save the figure 
@@ -144,8 +169,9 @@ colour = "Species")+
 }
 
 #Similar to the other functions, you can create another pipeline here.
-#You can create an r file called plotting.r and include the code above making the function.
-#This can then be used by source("functions/plotting.r")
+#You can create an r file called plottingII.r and include the code above making the function.
+#This can then be used by source("functions/plottingII.r")
+#This file is also included within the functions folder in the repository
 ```
 
 #Creating the figure object
