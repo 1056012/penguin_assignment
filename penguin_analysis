@@ -55,6 +55,10 @@ cleaning <- function(raw_data){
 ```{r}
 penguins_clean2 <- cleaning(penguins_raw)
 ```
+#preserving our new data 
+```{r}
+write.csv(penguins_clean2, "raw_data/penguins_clean2.csv")
+```
 
 #Look at the data
 ```{r}
